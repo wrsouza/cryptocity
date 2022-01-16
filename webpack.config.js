@@ -13,7 +13,7 @@ module.exports = env => ({
   },
   devtool: 'inline-cheap-module-source-map',
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.vue', '.json', '.scss'],
     alias: {
       '~': path.resolve(__dirname, 'src')
     }

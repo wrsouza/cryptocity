@@ -12,15 +12,79 @@
         <i class="fas fa-trash-alt"></i>
       </button>
     </div>
-    <div>
-      <span>{{ price }} ({{ percent?.toFixed(2) }})</span>
+    <div class="coins-item-prices">
+      <div class="current-price">
+        <span class="current-price-number">{{ price }}</span>
+        <span class="current-price-text">({{ status }})</span>
+      </div>
+      <div class="level-price">
+        <div class="level-price-high">
+          <span class="level-price-high-text">{{ high24h }}</span>
+          <span class="level-price-high-icon">
+            <i class="fas fa-long-arrow-alt-up"></i>
+          </span>
+        </div>
+        <div class="level-price-low">
+          <span class="level-price-low-text">{{ low24h }}</span>
+          <span class="level-price-low-icon">
+            <i class="fas fa-long-arrow-alt-down"></i>
+          </span>
+        </div>
+      </div>
     </div>
-    <div>
-      <span>{{ low24h }}</span>
-      <span> - </span>
-      <span>{{ high24h }}</span>
+    <div class="coins-item-monitor">
+      <form>
+        <div class="row">
+          <div class="form-group">
+            <label>Buy</label>
+            <input type="text" />
+          </div>
+          <div class="form-group">
+            <label>Sell</label>
+            <input type="text" />
+          </div>
+        </div>
+        <button type="submit" class="btn-monitor">Start Monitor</button>
+      </form>
     </div>
-    <div>{{ status }}</div>
+    <div class="coins-item-swap">
+      <span class="coins-item-swap-title">Coin Swap</span>
+      <form>
+        <div class="row">
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="text" />
+          </div>
+          <div class="form-group">
+            <label>Discount(%)</label>
+            <input type="text" />
+          </div>
+          <button type="submit" class="btn-swap">Ok</button>
+        </div>
+      </form>
+      <table class="coin-item-swap-table">
+        <thead>
+          <tr>
+            <th>COIN SYMBOL</th>
+            <th>VALUE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BNB</td>
+            <td>0.47</td>
+          </tr>
+          <tr>
+            <td>USD</td>
+            <td>0.47</td>
+          </tr>
+          <tr>
+            <td>BRL</td>
+            <td>0.47</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -40,27 +104,8 @@ export default defineComponent({
     percent: Number
   },
   setup(props) {
-    const {
-      name,
-      symbol,
-      image,
-      price,
-      high24h,
-      low24h,
-      quantity,
-      status,
-      percent
-    } = toRefs(props)
     return {
-      name,
-      symbol,
-      image,
-      price,
-      high24h,
-      low24h,
-      quantity,
-      status,
-      percent
+      ...toRefs(props)
     }
   }
 })

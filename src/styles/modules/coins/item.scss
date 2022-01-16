@@ -1,0 +1,204 @@
+.coins-item {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+
+    .logotipo {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+      height: 40px;
+      gap: 15px;
+
+      &-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+      }
+
+      &-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+
+        &-name {
+          display: inline-block;
+          font-size: 22px;
+          font-weight: 600;
+          color: $black;
+          line-height: 26px;
+          height: 26px;
+        }
+
+        &-symbol {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 400;
+          color: $lightGray;
+          text-transform: uppercase;
+          line-height: 14px;
+          height: 14px;
+        }
+      }
+    }
+
+    .btn-trash {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      color: $red;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      &:hover {
+      }
+    }
+  }
+
+  &-prices {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    margin: 10px 0;
+
+    .current-price {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+
+      &-number {
+        font-size: 25px;
+        font-weight: 900;
+        color: $blue;
+        line-height: 22px;
+      }
+
+      &-text {
+        font-size: 12px;
+        font-weight: 500;
+        color: #ccc;
+      }
+    }
+
+    .level-price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+
+      &-high,
+      &-low {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 8px;
+        height: 20px;
+
+        &-text {
+          font-size: 11px;
+          font-weight: 500;
+          line-height: 14px;
+          color: $white;
+        }
+
+        &-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 20px;
+          height: 20px;
+          font-size: 12px;
+          color: $white;
+          line-height: 14px;
+        }
+      }
+
+      &-high {
+        background: $green;
+      }
+
+      &-low {
+        background: $red;
+      }
+    }
+  }
+
+  &-monitor {
+    .row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      input[type='text'] {
+        padding: 0 10px;
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
+        color: $blue;
+        line-height: 40px;
+        border: 1px solid #eee;
+        outline: none;
+        background: #f5f5f5;
+
+        &:focus {
+          background: #fff;
+          border: 1px solid #ccc;
+        }
+      }
+    }
+
+    .btn-monitor {
+      margin-top: 10px;
+      width: 100%;
+      height: 50px;
+      font-size: 20px;
+      font-weight: 700;
+      color: $white;
+      line-height: 50px;
+      background: $blue;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+
+  &-swap {
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+}

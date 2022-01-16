@@ -35,11 +35,9 @@ export default defineComponent({
     }
   },
   mounted() {
-    /*
     for (let coin of this.coins) {
       this.setCoin(coin.id)
     }
-    */
   }
 })
 </script>
