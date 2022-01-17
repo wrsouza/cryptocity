@@ -27,8 +27,6 @@ export default defineComponent({
       this.setCounter(this.counter - 1)
     }
   },
-  mounted() {
-    console.log('mounted home')
-  }
+  mounted() {}
 })
 </script>

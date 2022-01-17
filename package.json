@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
+    "apexcharts": "^3.33.0",
     "axios": "^0.24.0",
     "dotenv": "^11.0.0",
     "vue": "^3.2.26",
+    "vue-apexcharts": "^1.6.2",
     "vue-router": "4",
     "vuex": "^4.0.2"
   },

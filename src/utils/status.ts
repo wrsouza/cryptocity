@@ -14,7 +14,6 @@ export const statusCalculate = ({
   const limitBuy = percent * limit + low
   const limitSell = high - percent * limit
   const percentPrice = price - low
-  console.log('price', price, 'low', low, 'percent', percentPrice)
   if (price < limitBuy) {
     return { status: Status.BUY, percent: percentPrice }
   }

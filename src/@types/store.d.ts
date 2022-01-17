@@ -28,7 +28,9 @@ interface CryptoCoin {
   low24h: CurrentPrice
   monitor: boolean
   limitBuy: undefined | number
+  notifyTimesBuy: number
   limitSell: undefined | number
+  notifyTimesSell: number
   quantity: number
   discount: number
 }
@@ -51,6 +53,7 @@ type CryptoCoinResume = {
 type SetQuantityPayload = {
   id: string
   quantity: number
+  discount: number
 }
 
 type SetStatusPayload = {
@@ -68,4 +71,11 @@ type SetSwapPayload = {
   id: string
   quantity: number
   discount: number
+}
+
+type SetMonitorPayload = {
+  id: string
+  limitBuy: number
+  limitSell: number
+  monitor: boolean
 }

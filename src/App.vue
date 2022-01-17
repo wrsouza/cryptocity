@@ -9,8 +9,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {},
-  mounted() {
-    console.log('mounted')
-  }
+  mounted() {}
 })
 </script>

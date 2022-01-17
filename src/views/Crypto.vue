@@ -1,20 +1,8 @@
 <template>
   <div>
-    <h1>Cryptos</h1>
+    <search />
     <div class="coins-list">
-      <coin
-        v-for="item in coins"
-        :key="item.id"
-        :name="item.name"
-        :symbol="item.symbol"
-        :image="item.image"
-        :price="item.price"
-        :high24h="item.high24h"
-        :low24h="item.low24h"
-        :quantity="item.quantity"
-        :status="item.status"
-        :percent="item.percent"
-      ></coin>
+      <coin v-for="item in coins" :key="item" :item="item"></coin>
     </div>
   </div>
 </template>
@@ -22,22 +10,43 @@
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import Coin from '~/components/Coin.vue'
+import Search from '~/components/Search.vue'
+import { dataRead } from '~/utils'
 
 export default defineComponent({
   components: {
-    Coin
+    Coin,
+    Search
   },
   setup() {
     const store = useStore()
     return {
-      coins: computed(() => store.getters['Crypto/coins']),
-      setCoin: (value: string) => store.dispatch('Crypto/setCoin', value)
+      coins: computed(() => store.getters['Crypto/getIds']),
+      setCoin: (id: string) => store.dispatch('Crypto/setCoin', id),
+      updateCoins: (payload: CryptoCoin[]) =>
+        store.dispatch('Crypto/updateCoins', payload)
+    }
+  },
+  methods: {
+    async update() {
+      for (let coinId of this.coins) {
+        await this.setCoin(coinId)
+        console.log('update', coinId, new Date())
+      }
+      setTimeout(() => this.update(), 1000 * 90)
     }
   },
   mounted() {
-    for (let coin of this.coins) {
-      this.setCoin(coin.id)
+    const coins = dataRead('cryptos')
+    if (coins) {
+      this.updateCoins(coins)
     }
+    setTimeout(() => this.update(), 1000)
+    Notification.requestPermission().then(result => {
+      if (result === 'granted') {
+        alert('Thanks, you will receive buy or sell notification!')
+      }
+    })
   }
 })
 </script>

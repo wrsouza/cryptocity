@@ -1,7 +1,11 @@
 import { MutationTree } from 'vuex'
-import { statusCalculate } from '~/utils'
+import { dataWrite, statusCalculate } from '~/utils'
 
 const mutations: MutationTree<CryptoState> = {
+  UPDATE_COINS(state, payload: CryptoCoin[]): void {
+    state.coins = payload
+  },
+
   SET_COIN(state, payload: CryptoCoin): void {
     const { status, percent } = statusCalculate({
       price: payload.currentPrice[state.coinType],
@@ -16,7 +20,9 @@ const mutations: MutationTree<CryptoState> = {
               quantity: item.quantity,
               discount: item.discount,
               limitBuy: item.limitBuy,
+              notifyTimesBuy: item.notifyTimesBuy,
               limitSell: item.limitSell,
+              notifyTimesSell: item.notifyTimesSell,
               monitor: item.monitor,
               status
             }
@@ -25,28 +31,44 @@ const mutations: MutationTree<CryptoState> = {
     } else {
       state.coins.push({
         ...payload,
+        notifyTimesBuy: 0,
+        notifyTimesSell: 0,
         monitor: false,
         status
       })
     }
+    dataWrite(state.coins, 'cryptos')
   },
 
-  SET_QUANTITY(state, { id, quantity }: SetQuantityPayload): void {
+  SET_MONITOR(
+    state,
+    { id, limitBuy, limitSell, monitor }: SetMonitorPayload
+  ): void {
     state.coins = state.coins.map(item =>
-      item.id === id ? { ...item, quantity } : item
+      item.id === id ? { ...item, limitBuy, limitSell, monitor } : item
     )
-  },
-
-  SET_LIMIT(state, { id, limitBuy, limitSell }: SetLimitPayload): void {
-    state.coins = state.coins.map(item =>
-      item.id === id ? { ...item, limitBuy, limitSell } : item
-    )
+    dataWrite(state.coins, 'cryptos')
   },
 
   SET_SWAP(state, { id, quantity, discount }: SetSwapPayload): void {
     state.coins = state.coins.map(item =>
-      item.id === id ? { ...item, quantity, discount } : item
+      item.id === id
+        ? { ...item, quantity, discount, notifyTimesSell: 0, notifyTimesBuy: 0 }
+        : item
     )
+    dataWrite(state.coins, 'cryptos')
+  },
+
+  REMOVE_COIN(state, id: string): void {
+    state.coins = state.coins.filter(item => item.id !== id)
+    dataWrite(state.coins, 'cryptos')
+  },
+
+  SET_NOTIFY_TIMES(state, { id, notifyTimesBuy, notifyTimesSell }): void {
+    state.coins = state.coins.map(item =>
+      item.id === id ? { ...item, notifyTimesSell, notifyTimesBuy } : item
+    )
+    dataWrite(state.coins, 'cryptos')
   }
 }
 
