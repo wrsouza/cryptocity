@@ -103,13 +103,15 @@
         </tbody>
       </table>
     </div>
-    <coinchart></coinchart>
+    <coinchart :points="points"></coinchart>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, toRefs, computed } from 'vue'
 import { useStore } from 'vuex'
 import CoinChart from './CoinChart.vue'
+import { mapperCharts } from '~/utils'
+import Swal from 'sweetalert2'
 
 export default defineComponent({
   props: {
@@ -126,6 +128,11 @@ export default defineComponent({
     const otherCoins = computed(() =>
       store.getters['Crypto/getFilteredCoins'](item.value)
     )
+    const points = mapperCharts({
+      width: 300,
+      height: 180,
+      data: coin.value.history
+    }).join(',')
     return {
       coinType,
       coin,
@@ -134,6 +141,7 @@ export default defineComponent({
       discount: coin.value.discount,
       limitBuy: coin.value.limitBuy,
       limitSell: coin.value.limitSell,
+      points,
       setSwap: (payload: SetSwapPayload) =>
         store.dispatch('Crypto/setSwap', payload),
       removeCoin: (id: string) => store.dispatch('Crypto/removeCoin', id),
@@ -211,7 +219,7 @@ export default defineComponent({
     formatter(value: number, type: string) {
       const lang: string = type === 'usd' ? 'en' : 'pt-BR'
       const currency: string = type === 'usd' ? 'USD' : 'BRL'
-      const fractionDigits: number = type === 'brl' || type === 'usd' ? 3 : 4
+      const fractionDigits: number = type === 'brl' || type === 'usd' ? 3 : 5
       const formatter = new Intl.NumberFormat(lang, {
         style: 'currency',
         currency,
@@ -245,7 +253,20 @@ export default defineComponent({
       this.setSwap({ id, quantity, discount })
     },
     remove() {
-      this.removeCoin(this.coin.id)
+      Swal.fire({
+        title: `Attention`,
+        html: `Do you really want remove this coin?`,
+        icon: 'question',
+        confirmButtonText: 'Yes, Remove',
+        confirmButtonColor: '#c70000',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        cancelButtonColor: '#378bee'
+      }).then(result => {
+        if (result.isConfirmed) {
+          this.removeCoin(this.coin.id)
+        }
+      })
     },
     calcSwap(item: CryptoCoin) {
       const currentPrice = this.coin.currentPrice[this.coinType]

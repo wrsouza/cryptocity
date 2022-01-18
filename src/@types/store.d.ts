@@ -33,6 +33,7 @@ interface CryptoCoin {
   notifyTimesSell: number
   quantity: number
   discount: number
+  history: number[]
 }
 
 interface CryptoState {
@@ -78,4 +79,9 @@ type SetMonitorPayload = {
   limitBuy: number
   limitSell: number
   monitor: boolean
+}
+
+type SetHistoryPayload = {
+  id: string
+  history: number[]
 }

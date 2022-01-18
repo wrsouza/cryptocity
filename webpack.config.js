@@ -9,7 +9,8 @@ module.exports = env => ({
   entry: path.resolve(__dirname, 'src', 'index.ts'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   devtool: 'inline-cheap-module-source-map',
   resolve: {
@@ -81,5 +82,10 @@ module.exports = env => ({
     new EnvironmentPlugin({
       API_URL: process.env.API_URL
     })
-  ]
+  ],
+  optimization: {
+    removeAvailableModules: false,
+    removeEmptyChunks: false,
+    splitChunks: false
+  }
 })

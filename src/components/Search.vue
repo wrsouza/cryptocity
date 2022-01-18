@@ -24,7 +24,7 @@ export default defineComponent({
 
   methods: {
     async search() {
-      await this.setCoin(this.searchInput)
+      await this.setCoin(this.searchInput.toLowerCase())
       this.searchInput = ''
     }
   }

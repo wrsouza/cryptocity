@@ -31,7 +31,6 @@ export default defineComponent({
     async update() {
       for (let coinId of this.coins) {
         await this.setCoin(coinId)
-        console.log('update', coinId, new Date())
       }
       setTimeout(() => this.update(), 1000 * 90)
     }
@@ -44,7 +43,7 @@ export default defineComponent({
     setTimeout(() => this.update(), 1000)
     Notification.requestPermission().then(result => {
       if (result === 'granted') {
-        alert('Thanks, you will receive buy or sell notification!')
+        // alert('Thanks, you will receive buy or sell notification!')
       }
     })
   }

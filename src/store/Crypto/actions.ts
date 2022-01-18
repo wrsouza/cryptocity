@@ -1,9 +1,12 @@
+import { AxiosError } from 'axios'
+import Swal from 'sweetalert2'
 import { ActionTree } from 'vuex'
 import http from '~/services/http'
 
 const actions: ActionTree<CryptoState, RootState> = {
-  async setCoin({ commit, dispatch }, id: string): Promise<void> {
+  async setCoin({ state, commit, dispatch }, id: string): Promise<void> {
     try {
+      const history = await dispatch('setHistory', id)
       const response = await http.get(id)
       const { data } = response
       commit('SET_COIN', {
@@ -25,11 +28,27 @@ const actions: ActionTree<CryptoState, RootState> = {
           bnb: data.market_data.low_24h.bnb,
           brl: data.market_data.low_24h.brl,
           usd: data.market_data.low_24h.usd
-        }
+        },
+        history
       })
       setTimeout(() => dispatch('sendNotification', id), 1000)
+    } catch (err: any) {
+      if (err.response.status === 404) {
+        Swal.fire(`${id}`, `Not Found!`, 'error')
+      }
+    }
+  },
+
+  async setHistory({ commit, state }, id: string): Promise<number[] | Error> {
+    try {
+      const response = await http.get(
+        `${id}/market_chart?vs_currency=${state.coinType}&days=1`
+      )
+      const { data } = response
+      return data.prices.map(item => item[1])
+      //commit('SET_HISTORY', { id, history })
     } catch (err) {
-      console.log(err)
+      throw err
     }
   },
 
@@ -57,6 +76,7 @@ const actions: ActionTree<CryptoState, RootState> = {
     const coinType = state.coinType
     const coin = state.coins.find(item => item.id === id)
     let title: string, icon: string, body: string
+    const audio = new Audio('/siren.wav')
     if (
       coin &&
       coin.monitor &&
@@ -67,6 +87,7 @@ const actions: ActionTree<CryptoState, RootState> = {
       title = `Hey, Buy ${coin.name}`
       icon = coin.image
       body = `${coin.name} price is ${coin.currentPrice[coinType]}`
+      audio.play()
       Notification.requestPermission().then(result => {
         if (result === 'granted') {
           new Notification(title, {
@@ -91,6 +112,7 @@ const actions: ActionTree<CryptoState, RootState> = {
       title = `Hey, Sell ${coin.name}`
       icon = coin.image
       body = `${coin.name} price is ${coin.currentPrice[coinType]}`
+      audio.play()
       Notification.requestPermission().then(result => {
         if (result === 'granted') {
           new Notification(title, {

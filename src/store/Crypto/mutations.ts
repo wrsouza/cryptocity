@@ -69,6 +69,13 @@ const mutations: MutationTree<CryptoState> = {
       item.id === id ? { ...item, notifyTimesSell, notifyTimesBuy } : item
     )
     dataWrite(state.coins, 'cryptos')
+  },
+
+  SET_HISTORY(state, { id, history }: SetHistoryPayload): void {
+    state.coins = state.coins.map(item =>
+      item.id === id ? { ...item, history } : item
+    )
+    dataWrite(state.coins, 'cryptos')
   }
 }
 
